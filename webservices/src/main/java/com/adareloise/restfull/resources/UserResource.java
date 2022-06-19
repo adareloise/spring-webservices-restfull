@@ -15,7 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.adareloise.restfull.exception.global.UserNotFoundException;
 import com.adareloise.restfull.model.User;
-import com.adareloise.restfull.model.service.UserDaoService;
+import com.adareloise.restfull.service.UserDaoService;
 
 @RestController
 public class UserResource {

@@ -1,4 +1,4 @@
-package com.adareloise.restfull.model.service;
+package com.adareloise.restfull.service;
 
 import java.util.ArrayList;
 import java.util.Date;
