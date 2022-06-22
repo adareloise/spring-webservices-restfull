@@ -1,7 +1,6 @@
 package com.adareloise.restfull.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonFilter;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,11 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@JsonIgnoreProperties(value = {"field1"})
+@JsonFilter("SomeBeanFilter")
 public class SomeBean {
 
 	String field1;
-	@JsonIgnore
 	String field2;
 	String field3;
 }
