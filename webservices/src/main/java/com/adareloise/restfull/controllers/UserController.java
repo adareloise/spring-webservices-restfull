@@ -1,9 +1,15 @@
-package com.adareloise.restfull.resources;
+package com.adareloise.restfull.controllers;
 
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +24,7 @@ import com.adareloise.restfull.model.User;
 import com.adareloise.restfull.service.UserDaoService;
 
 @RestController
-public class UserResource {
+public class UserController {
 	
 	@Autowired
 	private UserDaoService service;
@@ -29,12 +35,24 @@ public class UserResource {
 	}
 	
 	@GetMapping("/users/{id}")
-	public User retrieveUser(@PathVariable Integer id){	
-		return service.findOne(id);
+	public EntityModel<User> retrieveUser(@PathVariable Integer id){	
+		User user = service.findOne(id);
+		
+		if (user == null)
+			throw new UserNotFoundException("id: " + id);
+		
+		EntityModel<User> model = EntityModel.of(user);
+		
+		WebMvcLinkBuilder linkToUsers = 
+				linkTo(methodOn(this.getClass()).retrieveAllUsers());
+		
+		model.add(linkToUsers.withRel("all-users"));
+		
+		return model;
 	}
 	
 	@PostMapping("/users")
-	public ResponseEntity<Object> createUser(@RequestBody User user) {
+	public ResponseEntity<Object> createUser(@Valid @RequestBody User user) {
 		User info = service.save(user);
 		
 		//build rute 
