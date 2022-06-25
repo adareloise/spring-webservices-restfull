@@ -1,4 +1,4 @@
-package com.adareloise.restfull.model;
+package com.adareloise.restfull.model.filtering;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
 
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @JsonFilter("SomeBeanFilter")
-public class SomeBean {
+public class Filtering {
 
 	String field1;
 	String field2;

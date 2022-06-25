@@ -7,7 +7,7 @@ import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.adareloise.restfull.model.SomeBean;
+import com.adareloise.restfull.model.filtering.Filtering;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
@@ -18,7 +18,7 @@ public class FilteringController {
 	@GetMapping("/filtering")
 	public MappingJacksonValue retrieveSomeBean() {
 		
-		SomeBean someBean = new SomeBean("value1", "value2", "value3" );
+		Filtering someBean = new Filtering("value1", "value2", "value3" );
 		
 		SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter
 				.filterOutAllExcept("field1", "field2");
@@ -35,10 +35,10 @@ public class FilteringController {
 	
 	@GetMapping("/filtering-list")
 	public MappingJacksonValue retrieveListSomeBean() {
-		SomeBean bean1 = new SomeBean("value1", "value2", "value3" );
-		SomeBean bean2 = new SomeBean("value11", "value22", "value33" );
+		Filtering bean1 = new Filtering("value1", "value2", "value3" );
+		Filtering bean2 = new Filtering("value11", "value22", "value33" );
 		
-		List<SomeBean> beans = Arrays.asList(bean1,bean2); 
+		List<Filtering> beans = Arrays.asList(bean1,bean2); 
 		
 		SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter
 				.filterOutAllExcept("field3");

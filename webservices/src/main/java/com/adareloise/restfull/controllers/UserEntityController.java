@@ -20,31 +20,31 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.adareloise.restfull.exception.global.UserNotFoundException;
-import com.adareloise.restfull.model.User;
-import com.adareloise.restfull.service.UserDaoService;
+import com.adareloise.restfull.model.user.UserEntity;
+import com.adareloise.restfull.service.UserEntityService;
 
 @RestController
-public class UserController {
+public class UserEntityController {
 	
 	@Autowired
-	private UserDaoService service;
+	private UserEntityService service;
 	
 	@GetMapping("/users")
-	public List<User> retrieveAllUsers(){	
-		return service.findAll();
+	public List<UserEntity> retrieveAll(){	
+		return this.service.findAll();
 	}
 	
 	@GetMapping("/users/{id}")
-	public EntityModel<User> retrieveUser(@PathVariable Integer id){	
-		User user = service.findOne(id);
+	public EntityModel<UserEntity> retrieve(@PathVariable Integer id){	
+		UserEntity user = service.findOne(id);
 		
 		if (user == null)
 			throw new UserNotFoundException("id: " + id);
 		
-		EntityModel<User> model = EntityModel.of(user);
+		EntityModel<UserEntity> model = EntityModel.of(user);
 		
 		WebMvcLinkBuilder linkToUsers = 
-				linkTo(methodOn(this.getClass()).retrieveAllUsers());
+				linkTo(methodOn(this.getClass()).retrieveAll());
 		
 		model.add(linkToUsers.withRel("all-users"));
 		
@@ -52,8 +52,8 @@ public class UserController {
 	}
 	
 	@PostMapping("/users")
-	public ResponseEntity<Object> createUser(@Valid @RequestBody User user) {
-		User info = service.save(user);
+	public ResponseEntity<Object> create(@Valid @RequestBody UserEntity entity) {
+		UserEntity info = service.save(entity);
 		
 		//build rute 
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
@@ -63,11 +63,8 @@ public class UserController {
 	}
 	
 	@DeleteMapping("/users/{id}")
-	public void deleteUser(@PathVariable int id) {
-		User user = service.deleteById(id);
-		
-		if(user==null)
-			throw new UserNotFoundException("id-"+ id);		
+	public void deleteUser(@PathVariable Integer id) {
+		service.delete(id);
 	}
 
 }
